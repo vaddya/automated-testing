@@ -1,20 +1,25 @@
 package com.vaddya.autotests.page;
 
+import com.vaddya.autotests.page.search.ToolbarSearchBlock;
 import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+public class HomePage extends BaseElement {
+    private static final By AVATAR = By.xpath(".//div[@id='hook_Block_Avatar']");
 
-public class HomePage extends BasePage {
-    private static final By AVATAR = By.xpath("hook_Block_Avatar");
-
-    protected HomePage(@NotNull final WebDriver driver) {
+    public HomePage(@NotNull final WebDriver driver) {
         super(driver);
     }
 
     @Override
     protected void check() {
-        assertTrue(isElementPresent(AVATAR));
+        Assertions.assertTrue(explicitWaitVisible(AVATAR), "No avatar on home page!");
+    }
+
+    @NotNull
+    public ToolbarSearchBlock toolbarSearch() {
+        return new ToolbarSearchBlock(driver);
     }
 }
