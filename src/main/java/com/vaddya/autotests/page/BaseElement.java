@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -24,7 +25,7 @@ public abstract class BaseElement {
 
     protected void type(
             @NotNull final By locator,
-            @NotNull final String text) {
+            @NotNull final CharSequence... text) {
         driver.findElement(locator).clear();
         driver.findElement(locator).sendKeys(text);
     }

@@ -6,7 +6,7 @@ import com.vaddya.autotests.page.search.user.UserSearchCard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class FindUserByIdTest extends BaseTest {
+class FindUserByIdTest extends BaseTest {
     private static final String USER_ID = "vaddyacom";
 
     @Test
@@ -18,7 +18,7 @@ public class FindUserByIdTest extends BaseTest {
 
         final UserSearchCard userCard = search.toUserDomain()
                 .moveToFilters()
-                .searchOnlyById()
+                .withSearchOnlyById()
                 .search(USER_ID)
                 .getFirstResult();
         Assertions.assertEquals(USER_ID, userCard.getId());

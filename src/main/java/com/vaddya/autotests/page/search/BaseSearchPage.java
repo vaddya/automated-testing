@@ -7,6 +7,7 @@ import com.vaddya.autotests.page.BaseElement;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -19,7 +20,7 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BaseEleme
     private static final By SEARCH_DOMAINS = By.id("categoriesList");
     private static final By SEARCH_INPUT = By.xpath(".//input[@id='query_usersearch']");
     private static final By RESULT_LIST_ITEMS = By.xpath((".//div[@id='gs_result_list']/div"));
-    private static final By SEARCH_FINISHED = By.xpath(".//*[@id='livesearch_cancelId']");
+    private static final By SEARCH_IN_PROGRESS = By.xpath(".//div[contains(@class, 'search-input_searching')]");
 
     public BaseSearchPage(@NotNull final WebDriver driver) {
         super(driver);
@@ -30,9 +31,14 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BaseEleme
         Assertions.assertTrue(explicitWaitVisible(SEARCH_DOMAINS), "No domain tabs on a search page!");
     }
 
-    @NotNull
-    protected BaseSearchPage<T> search(@NotNull final String query) {
+    public BaseSearchPage<T> search(@NotNull final String query) {
         type(SEARCH_INPUT, query);
+        waitSearch();
+        return this;
+    }
+    
+    public BaseSearchPage<T> search() {
+        type(SEARCH_INPUT, Keys.ENTER);
         waitSearch();
         return this;
     }
@@ -55,10 +61,15 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BaseEleme
     abstract protected T wrapElement(@NotNull final WebElement element);
 
     private void waitSearch() {
-        ExpectedCondition<?> searchFinished = ExpectedConditions.visibilityOfElementLocated(SEARCH_FINISHED);
+        ExpectedCondition<?> searchInProgress = ExpectedConditions.presenceOfElementLocated(SEARCH_IN_PROGRESS);
+        if (!explicitWait(searchInProgress, 3, 1000)) {
+            log.warn("Unable to wait for search to start");
+        }
 
-        if (!explicitWait(searchFinished, 3, 500)) {
-            log.warn("Unable to wait for search to be finished");
+        ExpectedCondition<?> searchFinished = ExpectedConditions.numberOfElementsToBe(SEARCH_IN_PROGRESS, 0);
+        if (!explicitWait(searchFinished, 5, 1000)) {
+            log.warn("Unable to wait for search to finish. Searching again...");
+            search();
         }
     }
 }

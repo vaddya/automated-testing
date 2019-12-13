@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public abstract class BaseTest {
+abstract class BaseTest {
     public static final String BASE_URL = "https://ok.ru";
     public static final String EMAIL = "TechoBot4";
     public static final String PASSWORD = "TechnoPolis19";

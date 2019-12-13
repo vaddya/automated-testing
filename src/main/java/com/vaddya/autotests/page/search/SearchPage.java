@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SearchPage extends BaseElement {
     private static final By DOMAIN_TABS = By.xpath(".//span[contains(@class, 'gs_tab')]");
@@ -22,9 +21,7 @@ public class SearchPage extends BaseElement {
 
     @Override
     protected void check() {
-        Assertions.assertTrue(
-                explicitWait(ExpectedConditions.visibilityOfElementLocated(DOMAIN_TABS), 10, 500),
-                "No domain tabs on search page!");
+        Assertions.assertTrue(explicitWaitVisible(DOMAIN_TABS), "No domain tabs on search page!");
     }
 
     @NotNull

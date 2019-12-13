@@ -7,7 +7,7 @@ import com.vaddya.autotests.page.search.game.GameSearchCard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class FindGameByNameTest extends BaseTest {
+class FindGameByNameTest extends BaseTest {
     private static final String GAME_NAME = "Сокровища Пиратов";
     private static final String GAME_ID = "piratetreasures";
 
