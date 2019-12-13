@@ -1,7 +1,8 @@
 package com.vaddya.autotests.page.search;
 
-import com.vaddya.autotests.page.BaseElement;
+import com.vaddya.autotests.page.BasePage;
 import com.vaddya.autotests.page.search.game.GameSearchPage;
+import com.vaddya.autotests.page.search.music.MusicSearchPage;
 import com.vaddya.autotests.page.search.user.UserSearchPage;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
@@ -9,7 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class SearchPage extends BaseElement {
+public class SearchPage extends BasePage {
     private static final By DOMAIN_TABS = By.xpath(".//span[contains(@class, 'gs_tab')]");
     private static final By ACTIVE_DOMAIN_TABS = By.xpath(".//span[contains(@class, 'gs_tab') and contains(@class, '__active')]");
     private static final String DOMAIN_TAB_TEMPLATE = ".//span[@data-field_mode='%s']";
@@ -22,6 +23,7 @@ public class SearchPage extends BaseElement {
     @Override
     protected void check() {
         Assertions.assertTrue(explicitWaitVisible(DOMAIN_TABS), "No domain tabs on search page!");
+        Assertions.assertTrue(explicitWaitVisible(ACTIVE_DOMAIN_TABS), "No active domain tab on search page!");
     }
 
     @NotNull
@@ -41,6 +43,11 @@ public class SearchPage extends BaseElement {
     public GameSearchPage toGameDomain() {
         clickOnDomain(SearchDomain.GAMES);
         return new GameSearchPage(driver);
+    }
+
+    public MusicSearchPage toMusicDomain() {
+        clickOnDomain(SearchDomain.MUSIC);
+        return new MusicSearchPage(driver);
     }
 
     private void clickOnDomain(@NotNull final SearchDomain domain) {

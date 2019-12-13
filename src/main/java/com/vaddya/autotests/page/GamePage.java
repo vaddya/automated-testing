@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class GamePage extends BaseElement {
+public class GamePage extends BasePage {
     private static final By GAME_SCREEN = By.id("appMainFullScreen");
 
     public GamePage(@NotNull final WebDriver driver) {
@@ -14,6 +14,6 @@ public class GamePage extends BaseElement {
 
     @Override
     protected void check() {
-        Assertions.assertTrue(explicitWaitVisible(GAME_SCREEN), "Main screen is not found on a game page!");
+        Assertions.assertTrue(explicitWaitVisible(GAME_SCREEN), "Main screen is not found on the game page!");
     }
 }

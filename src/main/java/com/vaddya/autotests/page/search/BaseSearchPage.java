@@ -3,7 +3,7 @@ package com.vaddya.autotests.page.search;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.vaddya.autotests.page.BaseElement;
+import com.vaddya.autotests.page.BasePage;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class BaseSearchPage<T extends BaseSearchCard> extends BaseElement {
+public abstract class BaseSearchPage<T extends BaseSearchCard> extends BasePage {
     private static final Logger log = LoggerFactory.getLogger(BaseSearchPage.class);
     private static final By SEARCH_DOMAINS = By.id("categoriesList");
     private static final By SEARCH_INPUT = By.xpath(".//input[@id='query_usersearch']");
@@ -28,7 +28,8 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BaseEleme
 
     @Override
     protected void check() {
-        Assertions.assertTrue(explicitWaitVisible(SEARCH_DOMAINS), "No domain tabs on a search page!");
+        Assertions.assertTrue(explicitWaitVisible(SEARCH_DOMAINS), "No domain tabs on the search page!");
+        Assertions.assertTrue(explicitWaitVisible(SEARCH_INPUT), "No search input on the search page!");
     }
 
     public BaseSearchPage<T> search(@NotNull final String query) {
@@ -36,7 +37,7 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BaseEleme
         waitSearch();
         return this;
     }
-    
+
     public BaseSearchPage<T> search() {
         type(SEARCH_INPUT, Keys.ENTER);
         waitSearch();
@@ -60,14 +61,14 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BaseEleme
     @NotNull
     abstract protected T wrapElement(@NotNull final WebElement element);
 
-    private void waitSearch() {
-        ExpectedCondition<?> searchInProgress = ExpectedConditions.presenceOfElementLocated(SEARCH_IN_PROGRESS);
-        if (!explicitWait(searchInProgress, 3, 1000)) {
+    protected void waitSearch() {
+        final ExpectedCondition<?> searchInProgress = ExpectedConditions.presenceOfElementLocated(SEARCH_IN_PROGRESS);
+        if (!explicitWait(searchInProgress, 3, 500)) {
             log.warn("Unable to wait for search to start");
         }
 
-        ExpectedCondition<?> searchFinished = ExpectedConditions.numberOfElementsToBe(SEARCH_IN_PROGRESS, 0);
-        if (!explicitWait(searchFinished, 5, 1000)) {
+        final ExpectedCondition<?> searchFinished = ExpectedConditions.numberOfElementsToBe(SEARCH_IN_PROGRESS, 0);
+        if (!explicitWait(searchFinished, 3, 500)) {
             log.warn("Unable to wait for search to finish. Searching again...");
             search();
         }

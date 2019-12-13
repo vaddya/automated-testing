@@ -5,8 +5,8 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,34 +17,27 @@ public abstract class BaseElement {
 
     public BaseElement(@NotNull final WebDriver driver) {
         this.driver = driver;
-
-        check();
     }
-
-    protected abstract void check();
 
     protected void type(
+            @NotNull final SearchContext context,
             @NotNull final By locator,
             @NotNull final CharSequence... text) {
-        driver.findElement(locator).clear();
-        driver.findElement(locator).sendKeys(text);
+        context.findElement(locator).clear();
+        context.findElement(locator).sendKeys(text);
     }
 
-    protected void click(@NotNull final By locator) {
-        driver.findElement(locator).click();
+    protected void click(
+            @NotNull final SearchContext context,
+            @NotNull final By locator) {
+        context.findElement(locator).click();
     }
 
-    protected boolean isElementVisible(@NotNull final By locator) {
+    protected boolean isElementPresent(
+            @NotNull final SearchContext context,
+            @NotNull final By locator) {
         try {
-            return driver.findElement(locator).isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    protected boolean isElementPresent(@NotNull final By locator) {
-        try {
-            driver.findElement(locator);
+            context.findElement(locator);
             return true;
         } catch (NoSuchElementException e) {
             return false;
@@ -68,9 +61,7 @@ public abstract class BaseElement {
         } catch (Exception e) {
             return false;
         } finally {
-            if (driver != null) {
-                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-            }
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         }
     }
 

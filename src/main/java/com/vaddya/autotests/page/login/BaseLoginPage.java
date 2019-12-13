@@ -1,13 +1,13 @@
 package com.vaddya.autotests.page.login;
 
-import com.vaddya.autotests.page.BaseElement;
+import com.vaddya.autotests.page.BasePage;
 import com.vaddya.autotests.page.HomePage;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-abstract class BaseLoginPage extends BaseElement implements LoginPage {
+abstract class BaseLoginPage extends BasePage implements LoginPage {
     BaseLoginPage(@NotNull final WebDriver driver) {
         super(driver);
     }

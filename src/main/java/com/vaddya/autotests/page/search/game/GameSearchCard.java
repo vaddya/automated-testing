@@ -26,7 +26,7 @@ public class GameSearchCard extends BaseSearchCard {
     
     @NotNull
     public GamePage play() {
-        click(PLAY);
+        click(element, PLAY);
         return new GamePage(driver);
     }
 }

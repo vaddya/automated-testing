@@ -8,16 +8,11 @@ import org.openqa.selenium.WebElement;
 public abstract class BaseSearchCard extends BaseElement {
     protected final WebElement element;
 
-    protected BaseSearchCard(
+    public BaseSearchCard(
             @NotNull final WebDriver driver,
             @NotNull final WebElement element) {
         super(driver);
         this.element = element;
-    }
-
-    @Override
-    protected void check() {
-        // no checks for a card
     }
 
     @NotNull
