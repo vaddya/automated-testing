@@ -7,11 +7,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 abstract class BaseTest {
-    public static final String BASE_URL = "https://ok.ru";
-    public static final String EMAIL = "TechoBot4";
-    public static final String PASSWORD = "TechnoPolis19";
+    private static final Logger log = LoggerFactory.getLogger(BaseTest.class);
+    private static final String BASE_URL = "https://ok.ru";
+    private static final String EMAIL = "TechoBot4";
+    private static final String PASSWORD = "TechnoPolis19";
 
     @BeforeEach
     void init() {
@@ -24,12 +27,13 @@ abstract class BaseTest {
         driver.close();
     }
 
-    protected WebDriver driver;
+    private WebDriver driver;
 
     @NotNull
-    protected HomePage doLogin(
+    HomePage doLogin(
             @NotNull final String email,
             @NotNull final String password) {
+        log.info("Logging in using {} and {}", email, password);
         return LoginPage.create(driver)
                 .withEmail(email)
                 .withPassword(password)
@@ -37,7 +41,7 @@ abstract class BaseTest {
     }
 
     @NotNull
-    protected HomePage doLogin() {
+    HomePage doLogin() {
         return doLogin(EMAIL, PASSWORD);
     }
 }

@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public abstract class BasePage extends BaseElement {
-    public BasePage(@NotNull final WebDriver driver) {
+    protected BasePage(@NotNull final WebDriver driver) {
         super(driver);
 
         check();
@@ -23,6 +23,12 @@ public abstract class BasePage extends BaseElement {
         click(driver, locator);
     }
 
+    protected void select(
+            @NotNull final By locator,
+            @NotNull final String value) {
+        select(driver, locator, value);
+    }
+    
     protected boolean isElementPresent(@NotNull final By locator) {
         return isElementPresent(driver, locator);
     }

@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class GameSearchPage extends BaseSearchPage<GameSearchCard> {
-    public GameSearchPage(@NotNull WebDriver driver) {
+    public GameSearchPage(@NotNull final WebDriver driver) {
         super(driver);
     }
 

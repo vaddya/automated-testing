@@ -27,10 +27,10 @@ class FindUsersFiltered extends BaseTest {
                 .getResults(USERS_TO_CHECK);
 
         users.forEach(user -> {
-            user.getAge().ifPresent(age ->
-                    Assertions.assertTrue(age >= AGE_FROM && age <= AGE_TO, "Wrong user age: " + age));
-            user.getCity().ifPresent(city ->
-                    Assertions.assertEquals(CITY_MOSCOW, city, "Wrong user city: " + city));
+            user.getAge().ifPresent(age -> Assertions.assertTrue(age >= AGE_FROM && age <= AGE_TO,
+                    "Wrong user age: " + age));
+            user.getCity().ifPresent(city -> Assertions.assertEquals(CITY_MOSCOW, city,
+                    "Wrong user city: " + city));
         });
     }
 }

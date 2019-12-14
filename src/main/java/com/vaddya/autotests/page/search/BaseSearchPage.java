@@ -27,9 +27,12 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BasePage 
     private static final By COUNT = By.xpath(".//div[contains(@class, 'portlet_h_name_t')]");
     private static final Pattern COUNT_PATTERN = Pattern.compile("\\w+([\\s\\d]+)\\w+");
 
-    public BaseSearchPage(@NotNull final WebDriver driver) {
+    protected BaseSearchPage(@NotNull final WebDriver driver) {
         super(driver);
     }
+
+    @NotNull
+    protected abstract T wrapElement(@NotNull final WebElement element);
 
     @Override
     protected void check() {
@@ -38,12 +41,14 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BasePage 
     }
 
     public BaseSearchPage<T> search(@NotNull final String query) {
+        log.info("Searching {}...", query);
         type(SEARCH_INPUT, query);
         waitSearch();
         return this;
     }
 
     public BaseSearchPage<T> search() {
+        log.info("Searching...");
         type(SEARCH_INPUT, Keys.ENTER);
         waitSearch();
         return this;
@@ -51,18 +56,20 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BasePage 
 
     @NotNull
     public T getFirstResult() {
+        log.info("Retrieving first result");
         return wrapElement(driver.findElement(RESULT_LIST_ITEMS));
     }
 
     @NotNull
     public List<T> getResults(final int number) {
+        log.info("Retrieving first {} results", number);
         return driver.findElements(RESULT_LIST_ITEMS)
                 .stream()
                 .limit(number)
                 .map(this::wrapElement)
                 .collect(Collectors.toList());
     }
-    
+
     public int count() {
         final String countText = driver.findElement(COUNT).getText();
         final Matcher matcher = COUNT_PATTERN.matcher(countText);
@@ -73,19 +80,20 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BasePage 
         throw new IllegalArgumentException("Wrong count text: " + countText);
     }
 
-    @NotNull
-    abstract protected T wrapElement(@NotNull final WebElement element);
-
-    private void waitSearch() {
+    protected void waitSearch() {
         final ExpectedCondition<?> searchInProgress = ExpectedConditions.presenceOfElementLocated(SEARCH_IN_PROGRESS);
-        if (!explicitWait(searchInProgress, 3, 500)) {
+        if (explicitWait(searchInProgress, 3, 500)) {
             log.warn("Unable to wait for search to start");
+        } else {
+            log.debug("Search started...");
         }
 
         final ExpectedCondition<?> searchFinished = ExpectedConditions.numberOfElementsToBe(SEARCH_IN_PROGRESS, 0);
         if (!explicitWait(searchFinished, 3, 500)) {
             log.warn("Unable to wait for search to finish. Searching again...");
             search();
+        } else {
+            log.debug("Search finished...");
         }
     }
 }

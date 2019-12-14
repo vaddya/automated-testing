@@ -1,7 +1,6 @@
 package com.vaddya.autotests.page.search.video;
 
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
 import com.vaddya.autotests.page.search.BaseSearchCard;
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +13,7 @@ public class VideoSearchCard extends BaseSearchCard {
     private static final By LINK = By.xpath(".//a[contains(@class, 'video-card_lk')]");
     private static final By DURATION = By.xpath(".//div[contains(@class, 'video-card_duration')]");
 
-    VideoSearchCard(@NotNull WebDriver driver, @NotNull WebElement element) {
+    VideoSearchCard(@NotNull final WebDriver driver, @NotNull final WebElement element) {
         super(driver, element);
     }
 

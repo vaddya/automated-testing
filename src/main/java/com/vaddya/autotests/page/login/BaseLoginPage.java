@@ -12,6 +12,15 @@ abstract class BaseLoginPage extends BasePage implements LoginPage {
         super(driver);
     }
 
+    @NotNull
+    protected abstract By emailLocator();
+
+    @NotNull
+    protected abstract By passwordLocator();
+
+    @NotNull
+    protected abstract By submitLocator();
+
     @Override
     protected void check() {
         Assertions.assertTrue(explicitWaitVisible(submitLocator()), "No submit button on login page!");
@@ -20,30 +29,21 @@ abstract class BaseLoginPage extends BasePage implements LoginPage {
     @Override
     @NotNull
     public LoginPage withEmail(@NotNull final String email) {
-        driver.findElement(emailLocator()).sendKeys(email);
+        type(emailLocator(), email);
         return this;
     }
 
     @Override
     @NotNull
     public LoginPage withPassword(@NotNull final String password) {
-        driver.findElement(passwordLocator()).sendKeys(password);
+        type(passwordLocator(), password);
         return this;
     }
 
     @Override
     @NotNull
     public HomePage submit() {
-        driver.findElement(submitLocator()).click();
+        click(submitLocator());
         return new HomePage(driver);
     }
-
-    @NotNull
-    abstract protected By emailLocator();
-
-    @NotNull
-    abstract protected By passwordLocator();
-
-    @NotNull
-    abstract protected By submitLocator();
 }

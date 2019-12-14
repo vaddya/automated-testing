@@ -1,5 +1,6 @@
 package com.vaddya.autotests.page;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Preconditions;
@@ -8,14 +9,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class BaseElement {
+public class BaseElement {
+    private static final Logger log = LoggerFactory.getLogger(BaseElement.class);
     protected final WebDriver driver;
 
-    public BaseElement(@NotNull final WebDriver driver) {
+    protected BaseElement(@NotNull final WebDriver driver) {
         this.driver = driver;
     }
 
@@ -23,6 +29,7 @@ public abstract class BaseElement {
             @NotNull final SearchContext context,
             @NotNull final By locator,
             @NotNull final CharSequence... text) {
+        log.debug("Typing {} into {}", Arrays.toString(text), locator);
         context.findElement(locator).clear();
         context.findElement(locator).sendKeys(text);
     }
@@ -30,7 +37,18 @@ public abstract class BaseElement {
     protected void click(
             @NotNull final SearchContext context,
             @NotNull final By locator) {
+        log.debug("Clicking {}", locator);
         context.findElement(locator).click();
+    }
+
+    protected void select(
+            @NotNull final SearchContext context,
+            @NotNull final By locator,
+            @NotNull final String value) {
+        log.debug("Selecting {} in {}", value, locator);
+        final WebElement element = context.findElement(locator);
+        final Select select = new Select(element);
+        select.selectByValue(value);
     }
 
     protected boolean isElementPresent(
@@ -72,8 +90,10 @@ public abstract class BaseElement {
     private void checkConditionTimeouts(
             final long maxCheckTimeInSeconds,
             final long millisecondsBetweenChecks) {
-        Preconditions.checkState(maxCheckTimeInSeconds > 0, "maximum check time in seconds must be not 0");
-        Preconditions.checkState(millisecondsBetweenChecks > 0, "milliseconds count between checks must be not 0");
+        Preconditions.checkState(maxCheckTimeInSeconds > 0,
+                "Maximum check time in seconds must be more than 0");
+        Preconditions.checkState(millisecondsBetweenChecks > 0,
+                "Milliseconds count between checks must be more than 0");
         Preconditions.checkState(millisecondsBetweenChecks < (maxCheckTimeInSeconds * 1000),
                 "Millis between checks must be less than max seconds to wait");
     }

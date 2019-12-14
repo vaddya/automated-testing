@@ -6,12 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class UserSearchPage extends BaseSearchPage<UserSearchCard> {
-    private static final Logger log = LoggerFactory.getLogger(UserSearchPage.class);
     private static final By SEARCH_BY_ID_INPUT = By.id("field_refs");
     private static final By SEARCH_FROM_AGE = By.id("field_fromage");
     private static final By SEARCH_TILL_AGE = By.id("field_tillage");
@@ -38,18 +34,16 @@ public class UserSearchPage extends BaseSearchPage<UserSearchCard> {
         click(SEARCH_BY_ID_INPUT);
         return this;
     }
-    
+
     @NotNull
     public UserSearchPage withFromAge(final int from) {
-        final Select select = new Select(driver.findElement(SEARCH_FROM_AGE));
-        select.selectByValue(String.valueOf(from));
+        select(SEARCH_FROM_AGE, String.valueOf(from));
         return this;
     }
 
     @NotNull
     public UserSearchPage withTillAge(final int till) {
-        final Select select = new Select(driver.findElement(SEARCH_TILL_AGE));
-        select.selectByValue(String.valueOf(till));
+        select(SEARCH_TILL_AGE, String.valueOf(till));
         return this;
     }
 

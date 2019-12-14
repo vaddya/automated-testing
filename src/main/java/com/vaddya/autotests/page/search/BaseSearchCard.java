@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 public abstract class BaseSearchCard extends BaseElement {
     protected final WebElement element;
 
-    public BaseSearchCard(
+    protected BaseSearchCard(
             @NotNull final WebDriver driver,
             @NotNull final WebElement element) {
         super(driver);
