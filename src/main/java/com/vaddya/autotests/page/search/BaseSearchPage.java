@@ -1,9 +1,12 @@
 package com.vaddya.autotests.page.search;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.vaddya.autotests.page.BasePage;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
@@ -21,6 +24,8 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BasePage 
     private static final By SEARCH_INPUT = By.xpath(".//input[@id='query_usersearch']");
     private static final By RESULT_LIST_ITEMS = By.xpath((".//div[@id='gs_result_list']/div"));
     private static final By SEARCH_IN_PROGRESS = By.xpath(".//div[contains(@class, 'search-input_searching')]");
+    private static final By COUNT = By.xpath(".//div[contains(@class, 'portlet_h_name_t')]");
+    private static final Pattern COUNT_PATTERN = Pattern.compile("\\w+([\\s\\d]+)\\w+");
 
     public BaseSearchPage(@NotNull final WebDriver driver) {
         super(driver);
@@ -57,11 +62,21 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BasePage 
                 .map(this::wrapElement)
                 .collect(Collectors.toList());
     }
+    
+    public int count() {
+        final String countText = driver.findElement(COUNT).getText();
+        final Matcher matcher = COUNT_PATTERN.matcher(countText);
+        if (matcher.find()) {
+            String count = StringUtils.remove(matcher.group(), ' ');
+            return Integer.parseInt(count);
+        }
+        throw new IllegalArgumentException("Wrong count text: " + countText);
+    }
 
     @NotNull
     abstract protected T wrapElement(@NotNull final WebElement element);
 
-    protected void waitSearch() {
+    private void waitSearch() {
         final ExpectedCondition<?> searchInProgress = ExpectedConditions.presenceOfElementLocated(SEARCH_IN_PROGRESS);
         if (!explicitWait(searchInProgress, 3, 500)) {
             log.warn("Unable to wait for search to start");

@@ -4,6 +4,7 @@ import com.vaddya.autotests.page.BasePage;
 import com.vaddya.autotests.page.search.game.GameSearchPage;
 import com.vaddya.autotests.page.search.music.MusicSearchPage;
 import com.vaddya.autotests.page.search.user.UserSearchPage;
+import com.vaddya.autotests.page.search.video.VideoSearchPage;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
@@ -28,8 +29,8 @@ public class SearchPage extends BasePage {
 
     @NotNull
     public SearchDomain getCurrentDomain() {
-        WebElement activeTab = driver.findElement(ACTIVE_DOMAIN_TABS);
-        String modeAttribute = activeTab.getAttribute(DATA_FIELD_MODE);
+        final WebElement activeTab = driver.findElement(ACTIVE_DOMAIN_TABS);
+        final String modeAttribute = activeTab.getAttribute(DATA_FIELD_MODE);
         return SearchDomain.valueOf(modeAttribute.toUpperCase());
     }
 
@@ -45,9 +46,16 @@ public class SearchPage extends BasePage {
         return new GameSearchPage(driver);
     }
 
+    @NotNull
     public MusicSearchPage toMusicDomain() {
         clickOnDomain(SearchDomain.MUSIC);
         return new MusicSearchPage(driver);
+    }
+
+    @NotNull
+    public VideoSearchPage toVideoDomain() {
+        clickOnDomain(SearchDomain.MOVIE);
+        return new VideoSearchPage(driver);
     }
 
     private void clickOnDomain(@NotNull final SearchDomain domain) {

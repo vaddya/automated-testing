@@ -19,14 +19,14 @@ abstract class BaseLoginPage extends BasePage implements LoginPage {
 
     @Override
     @NotNull
-    public BaseLoginPage withEmail(@NotNull final String email) {
+    public LoginPage withEmail(@NotNull final String email) {
         driver.findElement(emailLocator()).sendKeys(email);
         return this;
     }
 
     @Override
     @NotNull
-    public BaseLoginPage withPassword(@NotNull final String password) {
+    public LoginPage withPassword(@NotNull final String password) {
         driver.findElement(passwordLocator()).sendKeys(password);
         return this;
     }

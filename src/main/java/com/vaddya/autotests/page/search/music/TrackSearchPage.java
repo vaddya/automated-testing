@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 public class TrackSearchPage extends BaseSearchPage<TrackSearchCard> {
     TrackSearchPage(@NotNull final WebDriver driver) {
         super(driver);
-        waitSearch();
     }
 
     @NotNull

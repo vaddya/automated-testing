@@ -18,13 +18,16 @@ class FindAndPlayMusicTest extends BaseTest {
                 .toolbarSearch()
                 .withQuery(ARTIST)
                 .submit();
-        Assertions.assertEquals(SearchDomain.MUSIC, search.getCurrentDomain());
+        Assertions.assertEquals(SearchDomain.MUSIC, search.getCurrentDomain(),
+                "Query is not classified as music query: " + ARTIST);
 
         final List<TrackSearchCard> tracks = search
                 .toMusicDomain()
                 .toTracks()
+                .search()
                 .getResults(TRACKS_TO_CHECK);
-        tracks.forEach(track -> Assertions.assertEquals(ARTIST, track.getArtist()));
+        tracks.forEach(track -> Assertions.assertEquals(ARTIST, track.getArtist(),
+                "Artists are different"));
 
         final TrackSearchCard track = tracks.get(0);
         Assertions.assertFalse(track.isPlaying());

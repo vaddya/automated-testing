@@ -25,8 +25,8 @@ public class UserSearchCard extends BaseSearchCard {
     @Override
     @NotNull
     public String getId() {
-        String href = element.findElement(LINK).getAttribute("href");
-        return href.substring(href.lastIndexOf('/') + 1);
+        final String href = element.findElement(LINK).getAttribute("href");
+        return idFromHref(href);
     }
     
     @NotNull

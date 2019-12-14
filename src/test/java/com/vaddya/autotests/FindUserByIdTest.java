@@ -14,13 +14,15 @@ class FindUserByIdTest extends BaseTest {
         final SearchPage search = doLogin()
                 .toolbarSearch()
                 .submit();
-        Assertions.assertEquals(SearchDomain.USERS, search.getCurrentDomain());
+        Assertions.assertEquals(SearchDomain.USERS, search.getCurrentDomain(),
+                "Users are not default domain");
 
         final UserSearchCard userCard = search.toUserDomain()
                 .moveToFilters()
                 .withSearchOnlyById()
                 .search(USER_ID)
                 .getFirstResult();
-        Assertions.assertEquals(USER_ID, userCard.getId());
+        Assertions.assertEquals(USER_ID, userCard.getId(),
+                "Wrong user found using ID-only search: " + userCard.getId());
     }
 }

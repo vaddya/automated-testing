@@ -17,12 +17,14 @@ class FindGameByNameTest extends BaseTest {
                 .toolbarSearch()
                 .withQuery(GAME_NAME)
                 .submit();
-        Assertions.assertEquals(SearchDomain.GAMES, search.getCurrentDomain());
+        Assertions.assertEquals(SearchDomain.GAMES, search.getCurrentDomain(),
+                "Query is not classified as game domain: " + GAME_NAME);
 
         final GameSearchCard gameCard = search
                 .toGameDomain()
                 .getFirstResult();
-        Assertions.assertEquals(GAME_ID, gameCard.getId());
+        Assertions.assertEquals(GAME_ID, gameCard.getId(),
+                "Games IDs are different");
 
         final GamePage game = gameCard.play();
     }

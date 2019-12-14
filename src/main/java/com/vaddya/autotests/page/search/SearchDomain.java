@@ -5,7 +5,7 @@ public enum SearchDomain {
     GROUPS,
     GAMES,
     MUSIC,
-    VIDEO;
+    MOVIE;
 
     public String capitalizedName() {
         return name().charAt(0) + name().substring(1).toLowerCase();

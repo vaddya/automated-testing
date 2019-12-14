@@ -17,4 +17,8 @@ public abstract class BaseSearchCard extends BaseElement {
 
     @NotNull
     public abstract String getId();
+    
+    protected String idFromHref(@NotNull final String href) {
+        return href.substring(href.lastIndexOf('/') + 1);
+    }
 }
