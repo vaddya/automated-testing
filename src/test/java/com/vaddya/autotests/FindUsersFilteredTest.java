@@ -7,7 +7,7 @@ import com.vaddya.autotests.page.search.user.UserSearchCard;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class FindUsersFiltered extends BaseTest {
+class FindUsersFilteredTest extends BaseTest {
     private static final String CITY_MOSCOW = "Москва";
     private static final int AGE_FROM = 20;
     private static final int AGE_TO = 30;
