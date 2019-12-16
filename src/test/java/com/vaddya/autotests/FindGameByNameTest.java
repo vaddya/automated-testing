@@ -22,6 +22,7 @@ class FindGameByNameTest extends BaseTest {
 
         final GameSearchCard gameCard = search
                 .toGameDomain()
+                .search(GAME_NAME)
                 .getFirstResult();
         Assertions.assertEquals(GAME_ID, gameCard.getId(),
                 "Games IDs are different");

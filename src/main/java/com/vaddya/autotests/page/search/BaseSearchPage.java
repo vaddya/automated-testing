@@ -57,12 +57,14 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BasePage 
     @NotNull
     public T getFirstResult() {
         log.info("Retrieving first result");
+        waitSearch();
         return wrapElement(driver.findElement(RESULT_LIST_ITEMS));
     }
 
     @NotNull
     public List<T> getResults(final int number) {
         log.info("Retrieving first {} results", number);
+        waitSearch();
         return driver.findElements(RESULT_LIST_ITEMS)
                 .stream()
                 .limit(number)
