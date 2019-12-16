@@ -72,14 +72,14 @@ public abstract class BaseSearchPage<T extends BaseSearchCard> extends BasePage 
                 .collect(Collectors.toList());
     }
 
-    public int count() {
+    public int countResults() {
         final String countText = driver.findElement(COUNT).getText();
         final Matcher matcher = COUNT_PATTERN.matcher(countText);
         if (matcher.find()) {
             String count = StringUtils.remove(matcher.group(), ' ');
             return Integer.parseInt(count);
         }
-        throw new IllegalArgumentException("Wrong count text: " + countText);
+        return 0; // no results found
     }
 
     protected void waitSearch() {

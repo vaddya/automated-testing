@@ -27,14 +27,14 @@ class FindHighQualityLongVideoTest extends BaseTest {
         final int longVideoCount = videoSearch
                 .withLongDuration()
                 .search(VIDEO_QUERY)
-                .count();
+                .countResults();
         Assertions.assertTrue(longVideoCount > 0,
                 "No video found by query: " + VIDEO_QUERY);
 
         final int longVideoWithHighQualityCount = videoSearch
                 .withHighQuality()
                 .search(VIDEO_QUERY)
-                .count();
+                .countResults();
         Assertions.assertTrue(longVideoWithHighQualityCount < longVideoCount,
                 "Count of high quality video must be less than total count");
 

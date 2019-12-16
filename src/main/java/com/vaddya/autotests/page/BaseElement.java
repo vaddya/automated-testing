@@ -30,6 +30,7 @@ public class BaseElement {
             @NotNull final By locator,
             @NotNull final CharSequence... text) {
         log.debug("Typing {} into {}", Arrays.toString(text), locator);
+        explicitWaitVisible(locator);
         context.findElement(locator).clear();
         context.findElement(locator).sendKeys(text);
     }
@@ -38,6 +39,7 @@ public class BaseElement {
             @NotNull final SearchContext context,
             @NotNull final By locator) {
         log.debug("Clicking {}", locator);
+        explicitWaitVisible(locator);
         context.findElement(locator).click();
     }
 
@@ -46,6 +48,7 @@ public class BaseElement {
             @NotNull final By locator,
             @NotNull final String value) {
         log.debug("Selecting {} in {}", value, locator);
+        explicitWaitVisible(locator);
         final WebElement element = context.findElement(locator);
         final Select select = new Select(element);
         select.selectByValue(value);

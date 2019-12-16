@@ -17,7 +17,8 @@ class FindUserByIdTest extends BaseTest {
         Assertions.assertEquals(SearchDomain.USERS, search.getCurrentDomain(),
                 "Users are not default domain");
 
-        final UserSearchCard userCard = search.toUserDomain()
+        final UserSearchCard userCard = search
+                .toUserDomain()
                 .moveToFilters()
                 .withSearchOnlyById()
                 .search(USER_ID)

@@ -24,7 +24,6 @@ class FindAndPlayMusicTest extends BaseTest {
         final List<TrackSearchCard> tracks = search
                 .toMusicDomain()
                 .toTracks()
-//                .search(ARTIST)
                 .getResults(TRACKS_TO_CHECK);
         tracks.forEach(track -> Assertions.assertEquals(ARTIST, track.getArtist(),
                 "Artists are different"));
